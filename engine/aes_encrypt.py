@@ -8,8 +8,7 @@ import time
 
 def encrypt(message, key, keylen=16, save_file_name='aes.bin', mode='ecb', initial_vector=''):
 
-    message, key, num_of_rounds, iv = helper.initial_process(
-        message, key, keylen, initial_vector)
+    message, key, num_of_rounds, iv = helper.initial_process(message, key, keylen, initial_vector)
     expanded_key = key_expansion(key)
 #    encrypted_text = electronic_code_book(message, expanded_key)
     aes_mode = aes_modes.get_mode(mode)
