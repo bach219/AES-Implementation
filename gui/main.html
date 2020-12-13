@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <title>AES Implementation</title>
     <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/font-awesome.css"/>
+<!--    <link rel="stylesheet" href="css/font-awesome.css"/>-->
     <link rel="stylesheet" href="css/materialize.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script>
@@ -76,7 +76,7 @@
                      <div class="row">
                         <div class="col s4"></div>
                         <div class="input-field col s2">
-                           <a class="btn waves-effect waves-light btn-large z-depth-1 col s12" role="button" onclick="onEncryptHandler()">Encrypt</a>
+                           <a class="btn waves-effect waves-light btn-large z-depth-1 col s12" role="button" id="enButton">Encrypt</a>
                         </div>
                         <div class="input-field col s2">
                            <a class="btn waves-effect waves-light btn-large z-depth-1 col s12" role="button" name="enex" value="enex"
@@ -135,11 +135,11 @@
                      <div class="row">
                         <div class="col s4"></div>
                         <div class="input-field col s2">
-                           <a class="btn waves-effect waves-light btn-large z-depth-1 col s12" role="button" onclick="onDecryptHandler()">Decrypt</a>
+                           <a class="btn waves-effect waves-light btn-large z-depth-1 col s12" role="button" id="deButton">Decrypt</a>
                         </div>
                         <div class="input-field col s2">
                            <a class="btn waves-effect waves-light btn-large z-depth-1 col s12" role="button" name="enex" value="enex"
-                              onclick="fileSaveAsDe('decrypt.txt')">Export</a>
+                              >Export</a>
                         </div>
                         <div class="col s4"></div>
                      </div>
@@ -157,13 +157,24 @@
             </div>
          </div>
       </div>
-    <script src='linkers/input_handler.js'></script>
-    <script src='linkers/python_link.js'></script>
-    <script src="linkers/jquery.js"></script>
-    <script src="linkers/materialize.min.js"></script>
-      <script>
-         $(document).ready(function(){
-         $('select').material_select();
-         });
-      </script>
+
+<script src='linkers/input_handler.js'></script>
+<script src='linkers/python_link.js'></script>
+<!--<script src="linkers/jquery.js"></script>-->
+<script src="linkers/materialize.min.js"></script>
+<script>
+   $(document).ready(function(){
+      $('select').material_select();
+   });
+
+   $("#enButton").click(function(){
+      $("#encrypt").html("<div class='progress'><div class='indeterminate'></div></div>");
+      setTimeout(function(){ onEncryptHandler(); }, 2000);
+   });
+
+   $("#deButton").click(function(){
+      $("#decrypt").html("<div class='progress'><div class='indeterminate'></div></div>");
+      setTimeout(function(){ onDecryptHandler(); }, 2000);
+   });
+</script>
 </body>
