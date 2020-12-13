@@ -98,7 +98,7 @@ function onEncryptHandler() {
                     return;
                 }
                 console.log("The timeEncrypt is : " + data);
-                document.getElementById('encrypt').innerHTML = "Encryption Time: " + data + " s";
+                document.getElementById('encrypt').innerHTML = "<b>Encryption Time: " + data + " s</b>";
             });
         });
     });
@@ -186,7 +186,7 @@ function onDecryptHandler() {
                     return;
                 }
                 console.log("The TimeDecrypt is : " + data);
-                document.getElementById('decrypt').innerHTML = "Decryption Time: " + data + " s";
+                document.getElementById('decrypt').innerHTML = "<b>Decryption Time: " + data + " s</b>";
             });
         });
     });

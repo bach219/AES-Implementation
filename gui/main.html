@@ -21,7 +21,7 @@
             <div class="nav-wrapper teal lighten-2">
                <div class="row mb-0">
                   <div class="col s12 m8 offset-m2">
-                     <h3 class="center-align ">AES Implementation</h3>
+                     <h3 class="center-align ">Advanced Encryption Standard</h3>
                   </div>
                </div>
                <div class="row mb-0">
@@ -42,7 +42,7 @@
                <div class="row">
                   <form class="col s12">
                      <div class="input-field col s2">
-                        <a class="btn waves-effect waves-light btn-large z-depth-1" role="button" onclick="getInputFileForEncrypt()">Choose file</a>
+                        <a class="btn waves-effect waves-light btn-large z-depth-3" role="button" onclick="getInputFileForEncrypt()">Choose file</a>
                      </div>
                      <div class="input-field col s10">
                         <input type="text" class="validate center-align" id="enFileInput">
@@ -76,10 +76,10 @@
                      <div class="row">
                         <div class="col s4"></div>
                         <div class="input-field col s2">
-                           <a class="btn waves-effect waves-light btn-large z-depth-1 col s12" role="button" id="enButton">Encrypt</a>
+                           <a class="btn waves-effect waves-light btn-large z-depth-5 col s12" role="button" id="enButton">Encrypt</a>
                         </div>
                         <div class="input-field col s2">
-                           <a class="btn waves-effect waves-light btn-large z-depth-1 col s12" role="button" name="enex" value="enex"
+                           <a class="btn waves-effect waves-light btn-large z-depth-5 col s12" role="button" name="enex" value="enex"
                               onclick="fileSaveAsEn('encrypt.bin')">Export</a>
                         </div>
                         <div class="col s4"></div>
@@ -92,7 +92,7 @@
                            <label for="outputString">AES Encrypted Output</label>
                         </div>
                      </div>
-                     <div class="row card-panel center-align teal accent-3 pulse"  id="encrypt"></div>
+                     <div class="row card-panel center-align teal accent-3 pulse header z-depth-5"  id="encrypt"></div>
                   </div>
                </div>
             </div>
@@ -101,7 +101,7 @@
                <div class="row">
                   <form class="col s12">
                      <div class="input-field col s2">
-                        <a class="btn waves-effect waves-light btn-large z-depth-1" role="button" onclick="getInputFileForDecrypt()">Choose file</a>
+                        <a class="btn waves-effect waves-light btn-large z-depth-3" role="button" onclick="getInputFileForDecrypt()">Choose file</a>
                      </div>
                      <div class="input-field col s10">
                         <input type="text" class="validate center-align" id="deFileInput">
@@ -135,10 +135,10 @@
                      <div class="row">
                         <div class="col s4"></div>
                         <div class="input-field col s2">
-                           <a class="btn waves-effect waves-light btn-large z-depth-1 col s12" role="button" id="deButton">Decrypt</a>
+                           <a class="btn waves-effect waves-light btn-large z-depth-5 col s12" role="button" id="deButton">Decrypt</a>
                         </div>
                         <div class="input-field col s2">
-                           <a class="btn waves-effect waves-light btn-large z-depth-1 col s12" role="button" name="enex" value="enex"
+                           <a class="btn waves-effect waves-light btn-large z-depth-5 col s12" role="button" name="enex" value="enex"
                               >Export</a>
                         </div>
                         <div class="col s4"></div>
@@ -151,7 +151,7 @@
                            <label for="doutputString">AES Decrypted Output</label>
                         </div>
                      </div>
-                     <div class="row card-panel center-align teal accent-3 pulse" id="decrypt"></div>
+                     <div class="row card-panel center-align teal accent-3 pulse header z-depth-5" id="decrypt"></div>
                   </div>
                </div>
             </div>
