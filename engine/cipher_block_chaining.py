@@ -13,11 +13,11 @@ def encrypt(message, expanded_key, number_of_rounds, iv):
     print('CBC Encrypt')
     encrypted_text = []
     for i in range(0, len(message), 16):
-        initial = message[i : i + 16]
+        initial = message[i : i + 16] # lúc đầu i1 = 0 => i2 = 16
         initial = array_xor(iv, initial)
         block_encypted_text = block_cipher_encrypt(initial, expanded_key, number_of_rounds)           
         encrypted_text += block_encypted_text
-        iv = block_encypted_text[0:16]
+        iv = block_encypted_text[0:16] # cắt ra 1 đoạn mã hóa để làm iv tiếp theo
 
     encrypted_text = [chr(i) for i in encrypted_text]
     return ''.join(encrypted_text)

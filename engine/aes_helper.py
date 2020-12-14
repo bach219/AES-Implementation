@@ -190,7 +190,7 @@ def key_expansion_core(key, i):
     key[2] = s_box[key[2]]
     key[3] = s_box[key[3]]
     # RCon
-    key[0] ^= rcon[i]
+    key[0] ^= rcon[i] # vì chỉ cần cộng ptu đầu(XOR 00 như ko)
     
     return key
 
@@ -200,24 +200,24 @@ def key_expansion_core(key, i):
 # Keys are stored one after the other in expandedKeys
 
 def key_expansion(input_key):
-
-    num_of_rounds = 10
-    if len(input_key) == 24:
+    lengthKey = len(input_key)
+    num_of_rounds = 10     # số lượng khóa phải sinh ra thêm ứng với độ dài khóa nhập vào
+    if lengthKey == 24:
         num_of_rounds = 12
-    elif len(input_key) == 32:
+    elif lengthKey == 32:
         num_of_rounds = 14
     
-    final_key_size = 16 * num_of_rounds + 16
-    expanded_keys = []
-    for i in range(final_key_size):
+    final_key_size = lengthKey * num_of_rounds + lengthKey # độ dài tổng các khóa
+    expanded_keys = [] #tạo 1 mảng các khóa sẽ đc tạo
+    for i in range(final_key_size): #thêm vào mảng expanded_keys[] các ptu '' vs số lượng = final_key_size
         expanded_keys.append('')
 
-    for i in range(len(input_key)):
+    for i in range(lengthKey): #gắn gtr của từng kí tự trong key gốc sang từng ptu của mảng expanded_keys[]
         expanded_keys[i] = input_key[i]
 
-    bytes_generated = len(input_key) # Bytes we've generated so far
+    bytes_generated = lengthKey # Bytes we've generated so far              gán gtr độ dài của key gốc
     r_con_iteration = 1 # Keeps track of rcon value
-    tmp_core = [i for i in range(4)] # Temp storage for core, size 4
+    tmp_core = [i for i in range(4)] # Temp storage for core, size 4              chứa 1 word tạm thời gồm 4 byte
 
     while bytes_generated < final_key_size:
 #		 Read 4 bytes for the core
@@ -225,16 +225,16 @@ def key_expansion(input_key):
 #		 Initially, these will be the final 4 bytes of the original key
 
         for i in range(4):
-            tmp_core[i] = expanded_keys[i + bytes_generated - 4]
+            tmp_core[i] = expanded_keys[i + bytes_generated - 4]                    #word cuối của 1 cụm word
 		
 
 		# Perform the core once for each 16 byte key
-        if bytes_generated % 16 == 0:
+        if bytes_generated % lengthKey == 0:
             tmp_core = key_expansion_core(tmp_core, r_con_iteration)
             r_con_iteration += 1
 		
         for i in range(4):
-            expanded_keys[bytes_generated] = expanded_keys[bytes_generated - 16] ^ tmp_core[i]
+            expanded_keys[bytes_generated] = expanded_keys[bytes_generated - lengthKey] ^ tmp_core[i] #cộng xor ra khóa mới
             bytes_generated += 1    
         
     return expanded_keys

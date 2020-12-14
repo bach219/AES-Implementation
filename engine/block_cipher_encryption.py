@@ -81,4 +81,4 @@ def block_cipher_encrypt(message, expanded_key, num_of_rounds):
         state = round(state, expanded_key[(i + 1) * 16: (i + 2) * 16])
         
     state = final_round(state, expanded_key[10 * 16: 11 * 16])
-    return state
+    return state #trả về 1 đoạn 128bit cắt ra từ plaintext
