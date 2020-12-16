@@ -207,7 +207,7 @@ def key_expansion(input_key):
     elif lengthKey == 32:
         num_of_rounds = 14
     
-    final_key_size = lengthKey * num_of_rounds + lengthKey # độ dài tổng các khóa
+    final_key_size = 16 * num_of_rounds + 16 # độ dài tổng các khóa
     expanded_keys = [] #tạo 1 mảng các khóa sẽ đc tạo
     for i in range(final_key_size): #thêm vào mảng expanded_keys[] các ptu '' vs số lượng = final_key_size
         expanded_keys.append('')

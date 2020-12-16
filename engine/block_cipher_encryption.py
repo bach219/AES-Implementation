@@ -74,8 +74,8 @@ def final_round(state, key):
     return state
 
 def block_cipher_encrypt(message, expanded_key, num_of_rounds):
-    
-    state = [message[i] for i in range(16)]
+
+    state = [message[i] for i in range(16)] #lay ra 16 ki tu trong plaintext
     state = add_round_key(state, expanded_key)
     for i in range(num_of_rounds - 1):
         state = round(state, expanded_key[(i + 1) * 16: (i + 2) * 16])

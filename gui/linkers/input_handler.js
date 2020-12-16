@@ -22,7 +22,7 @@ var inputProperticsDecrytion = {
     iv: inputProperticsEncrytion.iv
 };
 
-var enData = "", deData = "";
+var enData = "", deData = "", enTime="", deTime="", enFile=false, deFile=false;
 
 function getInputFileForEncrypt() {
 
@@ -37,19 +37,26 @@ function getInputFileForEncrypt() {
         console.log(result.canceled);
         console.log(result.filePaths);
 
-        if (result.filePaths.length == 0)
+        if (result.filePaths.length == 0){
             return;
+        }
 
         console.log('not cancelled');
 
         console.log(result.filePaths[0]);
         document.getElementById("enFileInput").value = result.filePaths[0];
-
         fs.readFile(result.filePaths[0], 'utf-8', (err, data) => {
             if (err) {
                 alert("An error ocurred reading the file :" + err.message);
+                document.getElementById('encrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+                document.getElementById('encrypt').innerHTML = "<b>An error ocurred reading the file: " + err.message + "</b>";
+                setTimeout(function(){
+                    document.getElementById('encrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+                    document.getElementById('encrypt').innerHTML = "";
+                }, 2000);
                 return;
             }
+            enFile =true;
 
             console.log("The file content is : " + data);
             inputProperticsEncrytion.message = data;
@@ -62,6 +69,15 @@ function getInputFileForEncrypt() {
 }
 
 function onEncryptHandler() {
+    if(!enFile){
+        document.getElementById('encrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+        document.getElementById('encrypt').innerHTML = "<b>No plain file is chosen</b>";
+        setTimeout(function(){
+            document.getElementById('encrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+            document.getElementById('encrypt').innerHTML = "";
+        }, 2000);
+        return;
+    }
     var me = document.getElementById("mode");
     inputProperticsEncrytion.aes_mode = me.options[me.selectedIndex].text;
     var ke = document.getElementById("keysize");
@@ -74,6 +90,12 @@ function onEncryptHandler() {
     fs.writeFile(fn, JSON.stringify(inputProperticsEncrytion), (err) => {
         if (err) {
             alert("An error ocurred creating the file " + err.message);
+            document.getElementById('encrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+            document.getElementById('encrypt').innerHTML = "<b>An error ocurred creating the file: " + err.message + "</b>";
+            setTimeout(function(){
+                document.getElementById('encrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+                document.getElementById('encrypt').innerHTML = "";
+            }, 2000);
         }
 
         var options = {
@@ -81,11 +103,25 @@ function onEncryptHandler() {
         };
 
         ps.PythonShell.run('aes_encrypt.py', options, function (err, results) {
-            if (err) throw err;
+            if (err) {
+             document.getElementById('decrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+             document.getElementById('decrypt').innerHTML = "<b>An error ocurred ecrypting the file</b>";
+             setTimeout(function(){
+                document.getElementById('decrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+                document.getElementById('decrypt').innerHTML = "";
+             }, 2000);
+             throw err;
+            }
             console.log('results: %j', results);
             fs.readFile('encrypt.bin', 'utf-8', (err, data) => {
                 if (err) {
                     alert("An error ocurred reading the file :" + err.message);
+                    document.getElementById('encrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+                    document.getElementById('encrypt').innerHTML = "<b>An error ocurred reading the file: " + err.message + "</b>";
+                    setTimeout(function(){
+                        document.getElementById('encrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+                        document.getElementById('encrypt').innerHTML = "";
+                    }, 2000);
                     return;
                 }
                 enData = data;
@@ -95,8 +131,15 @@ function onEncryptHandler() {
             fs.readFile('timeEncrypt.txt', 'utf-8', (err, data) => {
                 if (err) {
                     alert("An error ocurred reading the file :" + err.message);
+                    document.getElementById('encrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+                    document.getElementById('encrypt').innerHTML = "<b>An error ocurred reading the file: " + err.message + "</b>";
+                    setTimeout(function(){
+                        document.getElementById('encrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+                        document.getElementById('encrypt').innerHTML = "";
+                    }, 2000);
                     return;
                 }
+                enTime = data;
                 console.log("The timeEncrypt is : " + data);
                 document.getElementById('encrypt').innerHTML = "<b>Encryption Time: " + data + " s</b>";
             });
@@ -118,8 +161,9 @@ function getInputFileForDecrypt() {
         console.log(result.canceled);
         console.log(result.filePaths);
 
-        if (result.filePaths.length == 0)
+        if (result.filePaths.length == 0){
             return;
+        }
 
         console.log('not cancelled');
 
@@ -129,15 +173,27 @@ function getInputFileForDecrypt() {
         fs.readFile(result.filePaths[0], (err, data) => {
             if (err) {
                 alert("An error ocurred reading the file :" + err.message);
+                document.getElementById('decrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+                document.getElementById('decrypt').innerHTML = "<b>An error ocurred reading the file: " + err.message + "</b>";
+                setTimeout(function(){
+                        document.getElementById('decrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+                        document.getElementById('decrypt').innerHTML = "";
+                    }, 2000);
                 return;
             }
-
+            deFile =true;
             console.log("The file content is : " + data);
             //document.getElementById('dinputString').value = data;
             let fn = "aes_tmp.bin";
             fs.writeFile(fn, data, (err) => {
                 if (err) {
                     alert("An error ocurred creating the file " + err.message);
+                    document.getElementById('decrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+                    document.getElementById('decrypt').innerHTML = "<b>An error ocurred creating the file: " + err.message + "</b>";
+                    setTimeout(function(){
+                        document.getElementById('decrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+                        document.getElementById('decrypt').innerHTML = "";
+                    }, 2000);
                 }
             });
 
@@ -150,6 +206,15 @@ function getInputFileForDecrypt() {
 
 
 function onDecryptHandler() {
+    if(!deFile){
+        document.getElementById('decrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+        document.getElementById('encrypt').innerHTML = "<b>No cipher file is chosen</b>";
+        setTimeout(function(){
+            document.getElementById('decrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+            document.getElementById('decrypt').innerHTML = "";
+        }, 2000);
+        return;
+    }
     var me = document.getElementById("dmode");
     inputProperticsDecrytion.aes_mode = me.options[me.selectedIndex].text;
     var ke = document.getElementById("dkeysize");
@@ -162,6 +227,12 @@ function onDecryptHandler() {
     fs.writeFile(fn, JSON.stringify(inputProperticsDecrytion), (err) => {
         if (err) {
             alert("An error ocurred creating the file " + err.message);
+            document.getElementById('decrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+            document.getElementById('decrypt').innerHTML = "<b>An error ocurred creating the file: " + err.message + "</b>";
+            setTimeout(function(){
+                document.getElementById('decrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+                document.getElementById('decrypt').innerHTML = "";
+            }, 2000);
         }
 
         var options = {
@@ -169,11 +240,25 @@ function onDecryptHandler() {
         };
 
         ps.PythonShell.run('aes_decrypt.py', options, function (err, results) {
-            if (err) throw err;
+            if (err){
+             document.getElementById('decrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+             document.getElementById('decrypt').innerHTML = "<b>An error ocurred derypting the file</b>";
+             setTimeout(function(){
+                document.getElementById('decrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+                document.getElementById('decrypt').innerHTML = "";
+             }, 2000);
+             throw err;
+            }
             console.log('results: %j', results);
             fs.readFile('decrypt.txt', 'utf-8', (err, data) => {
                 if (err) {
                     alert("An error ocurred reading the file :" + err.message);
+                    document.getElementById('decrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+                    document.getElementById('decrypt').innerHTML = "<b>An error ocurred reading the file: " + err.message + "</b>";
+                    setTimeout(function(){
+                        document.getElementById('decrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+                        document.getElementById('decrypt').innerHTML = "";
+                    }, 2000);
                     return;
                 }
                 deData = data;
@@ -183,8 +268,15 @@ function onDecryptHandler() {
             fs.readFile('timeDecrypt.txt', 'utf-8', (err, data) => {
                 if (err) {
                     alert("An error ocurred reading the file :" + err.message);
+                    document.getElementById('decrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+                    document.getElementById('decrypt').innerHTML = "<b>An error ocurred reading the file: " + err.message + "</b>";
+                    setTimeout(function(){
+                        document.getElementById('decrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+                        document.getElementById('decrypt').innerHTML = "";
+                    }, 2000);
                     return;
                 }
+                deTime = data;
                 console.log("The TimeDecrypt is : " + data);
                 document.getElementById('decrypt').innerHTML = "<b>Decryption Time: " + data + " s</b>";
             });
@@ -204,7 +296,13 @@ function fileSaveAsEn(remoteUrl){
         console.log(path);
          fs.writeFile(path, enData, (err) => {
             if (err) {
-               alert("An error ocurred creating the file " + err.message);
+//               alert("An error ocurred creating the file " + err.message);
+                document.getElementById('encrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+                document.getElementById('encrypt').innerHTML = "<b>An error ocurred creating the file</b>";
+                setTimeout(function(){
+                    document.getElementById('encrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+                    document.getElementById('encrypt').innerHTML = "";
+                }, 2000);
             }
         })
     });
@@ -221,7 +319,13 @@ function fileSaveAsDe(remoteUrl){
         console.log(path);
          fs.writeFile(path, deData, (err) => {
             if (err) {
-               alert("An error ocurred creating the file " + err.message);
+//               alert("An error ocurred creating the file " + err.message);
+                document.getElementById('decrypt').className =  "row card-panel center-align red pulse header z-depth-5";
+                document.getElementById('decrypt').innerHTML = "<b>An error ocurred creating the file</b>";
+                setTimeout(function(){
+                    document.getElementById('decrypt').className =  "row card-panel center-align teal accent-3 pulse header z-depth-5";
+                    document.getElementById('decrypt').innerHTML = "";
+                }, 2000);
             }
         })
     });

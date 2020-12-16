@@ -3,6 +3,11 @@ body{
      background:#f1f1f1;
      background-image: url("matrix.jpg");
 }
+@media screen and (max-width: 1550px) {
+    .row .col.s12 {
+        margin-top: initial;
+    }
+}
 .navbar-fixed{
     height:auto !important;
 }
